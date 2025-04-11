@@ -20,7 +20,8 @@ namespace ArgusProject.Reducers;
 public class GlobalParamsBySlotReducer(
     IDbContextFactory<TestDbContext> dbContextFactory,
     IConfiguration configuration
-) : IReducer<GlobalParamsBySlot>
+) 
+// : IReducer<GlobalParamsBySlot>
 {
     private readonly string _globalParamsSubject = configuration.GetValue("GlobalParamsSubject", "caae00af42cdc71b9b76de4b4611c1de1185eb1866c781d582cbebb1000643b0043fce0f4728689f75a76d15695316cf70ffb51270aaef2540c3e9bb");
 
@@ -76,28 +77,24 @@ public class GlobalParamsBySlotReducer(
                     _ => null
                 };
 
-                if (protocolParams is null) return;
-
-                GlobalParamsBySlot? newEntry = null;
-                if (protocolParams is GlobalParams globalParams)
+                if (protocolParams is not null && protocolParams is GlobalParams globalParams)
                 {
-                    newEntry = new GlobalParamsBySlot(
+                    GlobalParamsBySlot? newEntry = new GlobalParamsBySlot(
                        Subject: _globalParamsSubject,
                        Slot: slot,
                        TxHash: txHash,
                        TxIndex: e.Index,
                        FeeAddress: outputBech32Addr,
                        PoolParamsPolicy: Convert.ToHexStringLower(globalParams.GlobalParamsDetails.PoolParamsPolicy),
-                       NftPrefix: Convert.ToHexStringLower(globalParams.GlobalParamsDetails.NftImage),
+                       NftPrefix: Convert.ToHexStringLower(globalParams.GlobalParamsDetails.NftPositionPrefix),
                        NftLendImage: Convert.ToHexStringLower(globalParams.GlobalParamsDetails.NftImage),
                        NftBorrowImage: Convert.ToHexStringLower(globalParams.GlobalParamsDetails.NftImage),
                        NftClaimableImage: Convert.ToHexStringLower(globalParams.GlobalParamsDetails.NftImage),
                        DatumRaw: e.Output.Datum()
                    );
-                }
 
-                if (newEntry is null) return;
-                dbContext.GlobalParamsBySlot.Add(newEntry);
+                   dbContext.GlobalParamsBySlot.Add(newEntry);
+                }
             });
     }
 }
