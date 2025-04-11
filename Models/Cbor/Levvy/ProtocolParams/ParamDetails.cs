@@ -1,28 +1,9 @@
+using ArgusProject.Models.Cbor.Levvy.Common;
 using Chrysalis.Cbor.Serialization.Attributes;
 using Chrysalis.Cbor.Types;
 using Chrysalis.Cbor.Types.Plutus.Address;
 
 namespace ArgusProject.Models.Cbor.Levvy.ProtocolParams;
-
-[CborSerializable]
-[CborConstr(0)]
-public partial record Address(
-    [CborOrder(0)]
-    Credential Owner,
-
-    [CborOrder(1)]
-    Credential Asset
-) : CborBase;
-
-[CborSerializable]
-[CborConstr(0)]
-public partial record Rational(
-    [CborOrder(0)]
-    ulong Numerator,
-
-    [CborOrder(1)]
-    ulong Denominator
-) : CborBase;
 
 [CborSerializable]
 [CborConstr(0)]
@@ -62,15 +43,6 @@ public partial record PoolParamsDetails(
     PoolDetails PoolDetails
 ) : CborBase;
 
-[CborSerializable]
-[CborConstr(0)]
-public partial record PoolDetails(
-    [CborOrder(0)]
-    Subject PrincipalAsset,
-
-    [CborOrder(1)]
-    Subject CollateralAsset
-) : CborBase;
 
 [CborSerializable]
 [CborConstr(0)]
@@ -80,4 +52,25 @@ public partial record Subject(
 
     [CborOrder(1)]
     byte[] AssetName
+) : CborBase;
+
+// TODO: address should conform the Plutus Address
+[CborSerializable]
+[CborConstr(0)]
+public partial record Address(
+    [CborOrder(0)]
+    Credential Owner,
+
+    [CborOrder(1)]
+    Credential Asset
+) : CborBase;
+
+[CborSerializable]
+[CborConstr(0)]
+public partial record Rational(
+    [CborOrder(0)]
+    ulong Numerator,
+
+    [CborOrder(1)]
+    ulong Denominator
 ) : CborBase;
