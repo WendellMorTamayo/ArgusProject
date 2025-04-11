@@ -13,6 +13,8 @@ public class TestDbContext
 {
     public DbSet<LendTokenDetailsBySubject> LendTokenDetailsBySubject => Set<LendTokenDetailsBySubject>();
     public DbSet<LendTokenDetailsBySlot> LendTokenDetailsBySlot => Set<LendTokenDetailsBySlot>();
+    public DbSet<GlobalParamsBySlot> GlobalParamsBySlot => Set<GlobalParamsBySlot>();
+    public DbSet<PoolParamsBySlot> PoolParamsBySlot => Set<PoolParamsBySlot>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,6 +28,16 @@ public class TestDbContext
         modelBuilder.Entity<LendTokenDetailsBySlot>(entity =>
         {
             entity.HasKey(e => new { e.Subject, e.Slot, e.TxHash, e.TxIndex, e.UtxoStatus });
+        });
+
+        modelBuilder.Entity<GlobalParamsBySlot>(entity =>
+        {
+            entity.HasKey(e => new { e.TxHash, e.TxIndex, e.Slot });
+        });
+
+        modelBuilder.Entity<PoolParamsBySlot>(entity =>
+        {
+            entity.HasKey(e => new { e.PoolSubject, e.TxHash, e.TxIndex, e.Slot });
         });
     }
 }
