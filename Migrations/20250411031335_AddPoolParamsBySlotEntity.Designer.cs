@@ -3,6 +3,7 @@ using System;
 using ArgusProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ArgusProject.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    partial class TestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250411031335_AddPoolParamsBySlotEntity")]
+    partial class AddPoolParamsBySlotEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,40 +242,6 @@ namespace ArgusProject.Migrations
                     b.HasKey("Subject", "Slot", "TxHash", "TxIndex");
 
                     b.ToTable("LendTokenDetailsBySubject", "public");
-                });
-
-            modelBuilder.Entity("ArgusProject.Models.Entity.PoolParamsBySlot", b =>
-                {
-                    b.Property<string>("PoolSubject")
-                        .HasColumnType("text");
-
-                    b.Property<string>("TxHash")
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("TxIndex")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<decimal>("Slot")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<string>("CollateralAssetSubject")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("DatumRaw")
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("FeeAddress")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PrincipalAssetSubject")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("PoolSubject", "TxHash", "TxIndex", "Slot");
-
-                    b.ToTable("PoolParamsBySlot", "public");
                 });
 #pragma warning restore 612, 618
         }

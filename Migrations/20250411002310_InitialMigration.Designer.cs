@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ArgusProject.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    [Migration("20250405011759_InitialMigration")]
+    [Migration("20250411002310_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace ArgusProject.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("public")
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -45,6 +45,53 @@ namespace ArgusProject.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("ReducerStates", "public");
+                });
+
+            modelBuilder.Entity("ArgusProject.Models.Entity.GlobalParamsBySlot", b =>
+                {
+                    b.Property<string>("TxHash")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("TxIndex")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<decimal>("Slot")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<byte[]>("DatumRaw")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("FeeAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NftBorrowImage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NftClaimableImage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NftLendImage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NftPrefix")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PoolParamsPolicy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("TxHash", "TxIndex", "Slot");
+
+                    b.ToTable("GlobalParamsBySlot", "public");
                 });
 
             modelBuilder.Entity("ArgusProject.Models.Entity.LendTokenDetailsBySlot", b =>

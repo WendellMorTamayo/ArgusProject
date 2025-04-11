@@ -10,11 +10,11 @@
   <ItemGroup>
     <PackageReference Include="Argus.Sync" Version="0.3.0-alpha" />
     <PackageReference Include="Chrysalis" Version="0.7.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.1.1" />
   </ItemGroup>
 

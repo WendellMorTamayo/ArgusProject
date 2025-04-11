@@ -15,6 +15,28 @@ namespace ArgusProject.Migrations
                 name: "public");
 
             migrationBuilder.CreateTable(
+                name: "GlobalParamsBySlot",
+                schema: "public",
+                columns: table => new
+                {
+                    Slot = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
+                    TxHash = table.Column<string>(type: "text", nullable: false),
+                    TxIndex = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
+                    Subject = table.Column<string>(type: "text", nullable: false),
+                    FeeAddress = table.Column<string>(type: "text", nullable: false),
+                    PoolParamsPolicy = table.Column<string>(type: "text", nullable: false),
+                    NftPrefix = table.Column<string>(type: "text", nullable: false),
+                    NftLendImage = table.Column<string>(type: "text", nullable: false),
+                    NftBorrowImage = table.Column<string>(type: "text", nullable: false),
+                    NftClaimableImage = table.Column<string>(type: "text", nullable: false),
+                    DatumRaw = table.Column<byte[]>(type: "bytea", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GlobalParamsBySlot", x => new { x.TxHash, x.TxIndex, x.Slot });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LendTokenDetailsBySlot",
                 schema: "public",
                 columns: table => new
@@ -96,6 +118,10 @@ namespace ArgusProject.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "GlobalParamsBySlot",
+                schema: "public");
+
             migrationBuilder.DropTable(
                 name: "LendTokenDetailsBySlot",
                 schema: "public");
