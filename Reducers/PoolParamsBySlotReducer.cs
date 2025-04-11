@@ -72,16 +72,14 @@ public class PoolParamsBySlotReducer(
                     string outputBech32Addr = new WalletAddress(e.Output.Address()).ToBech32();
                     byte[]? datumBytes = e.Output.Datum();
 
-                    Dictionary<byte[], TokenBundleOutput> multiAsset = e.Output.Amount().MultiAsset();
-                    KeyValuePair<byte[], TokenBundleOutput> policyEntry = multiAsset
+                    KeyValuePair<byte[], TokenBundleOutput> policyEntry = e.Output.Amount().MultiAsset()
                         .First(asset => Convert.ToHexStringLower(asset.Key) == _poolParamsPolicyId);
                     TokenBundleOutput tokenBundle = policyEntry.Value;
 
                     return tokenBundle.ToDict().Select(assetEntry =>
                     {
-                        byte[] assetNameBytes = assetEntry.Key;
+                        string assetName = Convert.ToHexStringLower(assetEntry.Key);
                         ulong assetAmount = assetEntry.Value;
-                        string assetName = Convert.ToHexStringLower(assetNameBytes);
                         if (assetAmount == 0 || datumBytes == null || datumBytes.Length == 0) return null;
 
                         try
@@ -98,8 +96,11 @@ public class PoolParamsBySlotReducer(
 
                             if (protocolParams == null) return null;
 
-                            string principalSubject = Convert.ToHexStringLower(protocolParams.PoolParamsDetails.PoolDetails.PrincipalAsset.PolicyId) + Convert.ToHexStringLower(protocolParams.PoolParamsDetails.PoolDetails.PrincipalAsset.AssetName);
-                            string collateralSubject = Convert.ToHexStringLower(protocolParams.PoolParamsDetails.PoolDetails.CollateralAsset.PolicyId) + Convert.ToHexStringLower(protocolParams.PoolParamsDetails.PoolDetails.CollateralAsset.AssetName);
+                            Subject principalAsset = protocolParams.PoolParamsDetails.PoolDetails.PrincipalAsset;
+                            Subject collateralAsset = protocolParams.PoolParamsDetails.PoolDetails.CollateralAsset;
+
+                            string principalSubject = Convert.ToHexStringLower(principalAsset.PolicyId) + Convert.ToHexStringLower(principalAsset.AssetName);
+                            string collateralSubject = Convert.ToHexStringLower(collateralAsset.PolicyId) + Convert.ToHexStringLower(collateralAsset.AssetName);
 
                             return new PoolParamsBySlot(
                                 PrincipalAssetSubject: principalSubject,
@@ -108,7 +109,7 @@ public class PoolParamsBySlotReducer(
                                 Slot: slot,
                                 TxHash: txHash,
                                 TxIndex: e.Index,
-                                PoolSubject: _poolParamsPolicyId + Convert.ToHexStringLower(assetNameBytes),
+                                PoolSubject: _poolParamsPolicyId + assetName,
                                 DatumRaw: datumBytes
                             );
                         }
