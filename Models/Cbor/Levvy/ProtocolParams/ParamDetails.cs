@@ -54,16 +54,6 @@ public partial record Subject(
     byte[] AssetName
 ) : CborBase;
 
-// TODO: address should conform the Plutus Address
-[CborSerializable]
-[CborConstr(0)]
-public partial record Address(
-    [CborOrder(0)]
-    Credential Owner,
-
-    [CborOrder(1)]
-    Credential Asset
-) : CborBase;
 
 [CborSerializable]
 [CborConstr(0)]

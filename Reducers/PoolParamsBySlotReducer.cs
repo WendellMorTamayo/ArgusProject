@@ -21,7 +21,8 @@ namespace ArgusProject.Reducers;
 public class PoolParamsBySlotReducer(
     IDbContextFactory<TestDbContext> dbContextFactory,
     IConfiguration configuration
-) : IReducer<PoolParamsBySlot>
+) 
+// : IReducer<PoolParamsBySlot>
 {
     private readonly string _poolParamsPolicyId = configuration.GetValue("GlobalParamsSubject", "caae00af42cdc71b9b76de4b4611c1de1185eb1866c781d582cbebb1");
     public async Task RollBackwardAsync(ulong slot)
