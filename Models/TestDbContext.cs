@@ -15,6 +15,7 @@ public class TestDbContext
     public DbSet<LendTokenDetailsBySlot> LendTokenDetailsBySlot => Set<LendTokenDetailsBySlot>();
     public DbSet<GlobalParamsBySlot> GlobalParamsBySlot => Set<GlobalParamsBySlot>();
     public DbSet<PoolParamsBySlot> PoolParamsBySlot => Set<PoolParamsBySlot>();
+    public DbSet<AlwaysTrueTxBySlot> AlwaysTrueTxsBySlot => Set<AlwaysTrueTxBySlot>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -38,6 +39,11 @@ public class TestDbContext
         modelBuilder.Entity<PoolParamsBySlot>(entity =>
         {
             entity.HasKey(e => new { e.PoolSubject, e.TxHash, e.TxIndex, e.Slot });
+        });
+
+        modelBuilder.Entity<AlwaysTrueTxBySlot>(entity =>
+        {
+            entity.HasKey(e => new { e.TxHash, e.TxIndex, e.Slot });
         });
     }
 }
